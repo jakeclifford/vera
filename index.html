@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vera</title>
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --type: 11px;
+      --tracking: 0.12em;
+      --pad: clamp(1.35rem, 2.8vw, 2rem);
+      --font: "Century Schoolbook", "New Century Schoolbook", "Century Schoolbook L", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      font-size: var(--type);
+      font-weight: 400;
+      letter-spacing: var(--tracking);
+      color: var(--black);
+      background: var(--white);
+      text-transform: uppercase;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .page {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .panel-form {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      padding: var(--pad);
+      background: var(--white);
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .logo {
+      position: absolute;
+      top: var(--pad);
+      left: var(--pad);
+      line-height: 0;
+    }
+
+    .logo img {
+      display: block;
+      height: 20px;
+      width: auto;
+    }
+
+    .form-block {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .form-block h1 {
+      font-size: var(--type);
+      font-weight: 400;
+      letter-spacing: var(--tracking);
+      margin-bottom: 1.6rem;
+      line-height: 1.4;
+    }
+
+    .email-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      column-gap: 0.85rem;
+      width: 100%;
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 0.4rem;
+      margin-bottom: 3.75rem;
+    }
+
+    .email-slot {
+      width: 100%;
+    }
+
+    .enter-btn {
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .email-row input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      text-transform: none;
+      color: var(--black);
+      padding: 0;
+      line-height: 1.2;
+      min-width: 0;
+      caret-color: var(--black);
+    }
+
+    .email-row input::placeholder {
+      color: var(--black);
+      opacity: 1;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking);
+    }
+
+    .email-row input:focus::placeholder {
+      color: transparent;
+    }
+
+    .enter-btn {
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      color: var(--black);
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    .enter-btn:hover {
+      opacity: 0.5;
+    }
+
+    .follow {
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      line-height: 1.6;
+    }
+
+    .thanks-copy {
+      display: flex;
+      align-items: flex-end;
+      width: 100%;
+      min-height: calc(1.2em + 0.4rem + 1px);
+      padding-bottom: 0.4rem;
+      margin-bottom: 3.75rem;
+      border-bottom: 1px solid transparent;
+      font-size: var(--type);
+      text-transform: none;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+      color: var(--black);
+    }
+
+    .thanks-copy[hidden],
+    #signup-form[hidden] {
+      display: none;
+    }
+
+    .brand-foot {
+      position: absolute;
+      left: var(--pad);
+      bottom: var(--pad);
+      line-height: 0;
+    }
+
+    .brand-foot img {
+      display: block;
+      height: 22px;
+      width: auto;
+    }
+
+    .panel-visual {
+      position: relative;
+      background: #1a1a1a;
+      overflow: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .panel-visual img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .meta-time,
+    .meta-privacy {
+      position: absolute;
+      z-index: 2;
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      color: var(--white);
+    }
+
+    .meta-time {
+      top: var(--pad);
+      right: var(--pad);
+    }
+
+    .meta-privacy {
+      bottom: var(--pad);
+      right: var(--pad);
+    }
+
+    .meta-copy {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: var(--pad);
+      transform: translateX(-50%);
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      color: var(--black);
+      pointer-events: none;
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(52vh, auto) minmax(48vh, 1fr);
+      }
+
+      .panel-form {
+        min-height: 52vh;
+        order: 1;
+      }
+
+      .panel-visual {
+        min-height: 48vh;
+        order: 2;
+      }
+
+      .meta-copy {
+        left: var(--pad);
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="panel-form" aria-label="Signup">
+      <div class="logo">
+        <img src="assets/vera-mark.png" alt="Vera">
+      </div>
+
+      <div class="form-block" id="signup-view">
+        <h1 id="form-title">Join the waitlist.</h1>
+        <div class="email-slot">
+          <form
+            id="signup-form"
+            action="https://formspree.io/f/xoeawewa"
+            method="POST"
+            novalidate
+          >
+            <div class="email-row">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="Email"
+                required
+                aria-label="Email"
+              >
+              <button class="enter-btn" type="submit">{ Enter }</button>
+            </div>
+          </form>
+          <p class="thanks-copy" id="thanks-copy" hidden>
+            You’ll be the first to know when our first release drops.
+          </p>
+        </div>
+        <p class="follow">
+          Follow us @ <a href="https://www.instagram.com/vera.studio/" target="_blank" rel="noopener noreferrer">__vera.studio__</a>
+        </p>
+      </div>
+
+      <div class="brand-foot">
+        <img src="assets/vera-logo.png" alt="Vera">
+      </div>
+    </section>
+
+    <aside class="panel-visual" aria-label="Featured image">
+      <img src="assets/hero.png" alt="">
+      <div class="meta-time" id="clock">00:00</div>
+      <a class="meta-privacy" href="#privacy">Privacy Policy</a>
+    </aside>
+
+    <div class="meta-copy">© 2026</div>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById("signup-form");
+      const formTitle = document.getElementById("form-title");
+      const thanksCopy = document.getElementById("thanks-copy");
+      const clock = document.getElementById("clock");
+
+      function formatLocalTime(date) {
+        const parts = new Intl.DateTimeFormat(undefined, {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZoneName: "short",
+        }).formatToParts(date);
+
+        const hour = parts.find((p) => p.type === "hour")?.value ?? "00";
+        const minute = parts.find((p) => p.type === "minute")?.value ?? "00";
+        const zone = parts.find((p) => p.type === "timeZoneName")?.value ?? "";
+        return zone ? hour + ":" + minute + " " + zone : hour + ":" + minute;
+      }
+
+      function tick() {
+        clock.textContent = formatLocalTime(new Date());
+      }
+
+      tick();
+      setInterval(tick, 1000);
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        if (!form.email.value.trim() || !form.email.checkValidity()) {
+          form.email.focus();
+          return;
+        }
+
+        const submitBtn = form.querySelector(".enter-btn");
+        submitBtn.disabled = true;
+
+        try {
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+          });
+
+          if (!response.ok) {
+            throw new Error("Submit failed");
+          }
+
+          formTitle.textContent = "Thank you.";
+          form.hidden = true;
+          thanksCopy.hidden = false;
+        } catch (error) {
+          submitBtn.disabled = false;
+          form.email.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
