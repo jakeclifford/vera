@@ -106,9 +106,13 @@
       align-items: end;
       column-gap: 0.85rem;
       width: 100%;
-      border-bottom: 1px solid var(--black);
       padding-bottom: 0.4rem;
+    }
+
+    .email-row-wrap {
+      width: 100%;
       margin-bottom: 3.75rem;
+      border-bottom: 1px solid var(--black);
     }
 
     .email-slot {
@@ -277,9 +281,26 @@
         margin-bottom: 1.25rem;
       }
 
-      .email-row,
+      .email-row-wrap,
       .thanks-copy {
         margin-bottom: 2.75rem;
+      }
+
+      .email-row-wrap {
+        height: calc((1.2 * 16px + 0.55rem) * 11 / 16);
+      }
+
+      .email-row,
+      .email-row input,
+      .enter-btn {
+        font-size: 16px;
+      }
+
+      .email-row {
+        transform: scale(calc(11 / 16));
+        transform-origin: top left;
+        width: calc(100% * 16 / 11);
+        padding-bottom: 0.55rem;
       }
 
       .thanks-copy {
@@ -364,17 +385,19 @@
             method="POST"
             novalidate
           >
-            <div class="email-row">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                placeholder="Email"
-                required
-                aria-label="Email"
-              >
-              <button class="enter-btn" type="submit">{ Enter }</button>
+            <div class="email-row-wrap">
+              <div class="email-row">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="Email"
+                  required
+                  aria-label="Email"
+                >
+                <button class="enter-btn" type="submit">{ Enter }</button>
+              </div>
             </div>
           </form>
           <p class="thanks-copy" id="thanks-copy" hidden>
