@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vera</title>
+  <script>
+    try {
+      if (sessionStorage.getItem("vera-access") === "1") {
+        document.documentElement.classList.add("is-open");
+      }
+    } catch (e) {}
+  </script>
   <style>
     @font-face {
       font-family: "Century Schoolbook Monospace";
@@ -194,6 +201,68 @@
       display: none;
     }
 
+    html:not(.is-open) .page {
+      display: none;
+    }
+
+    html.is-open .gate {
+      display: none;
+    }
+
+    .gate {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: var(--pad);
+      background: var(--white);
+    }
+
+    .gate form {
+      width: min(100%, 20rem);
+    }
+
+    .gate-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      column-gap: 0.85rem;
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 0.4rem;
+    }
+
+    .gate-row input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      font-size: var(--type);
+      letter-spacing: var(--tracking);
+      text-transform: none;
+      color: var(--black);
+      padding: 0;
+      line-height: 1.2;
+      min-width: 0;
+      caret-color: var(--black);
+    }
+
+    .gate-row input::placeholder {
+      color: var(--black);
+      opacity: 1;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking);
+    }
+
+    .gate-row input:focus::placeholder {
+      color: transparent;
+    }
+
+    .gate-row input.is-error::placeholder,
+    .gate-row input.is-error:focus::placeholder {
+      color: var(--black);
+    }
+
     .brand-foot--form {
       position: absolute;
       left: var(--pad);
@@ -327,6 +396,17 @@
         display: none;
       }
 
+      .gate-row,
+      .gate-row input,
+      .gate-row .enter-btn {
+        font-size: 16px;
+      }
+
+      .gate-row {
+        transform: scale(calc(11 / 16));
+        transform-origin: center center;
+      }
+
       .brand-foot--visual {
         display: block;
         position: absolute;
@@ -368,6 +448,24 @@
   </style>
 </head>
 <body>
+  <div class="gate" id="gate">
+    <form id="gate-form" novalidate>
+      <div class="gate-row">
+        <input
+          id="gate-password"
+          type="password"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="Password"
+          required
+          aria-label="Password"
+        >
+        <button class="enter-btn" type="submit">{ Enter }</button>
+      </div>
+    </form>
+  </div>
+
   <div class="page">
     <div class="meta-time" id="clock">00:00</div>
 
@@ -424,6 +522,46 @@
   </div>
 
   <script>
+    (function () {
+      const PASSWORD = "vera123";
+      const gateForm = document.getElementById("gate-form");
+      const gateInput = document.getElementById("gate-password");
+
+      function unlock() {
+        sessionStorage.setItem("vera-access", "1");
+        document.documentElement.classList.add("is-open");
+      }
+
+      gateForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const value = gateInput.value;
+        if (!value) {
+          gateInput.focus();
+          return;
+        }
+        if (value === PASSWORD) {
+          unlock();
+          return;
+        }
+
+        gateInput.value = "";
+        gateInput.placeholder = "Incorrect";
+        gateInput.classList.add("is-error");
+        gateInput.focus();
+      });
+
+      gateInput.addEventListener("input", function () {
+        if (gateInput.classList.contains("is-error")) {
+          gateInput.classList.remove("is-error");
+          gateInput.placeholder = "Password";
+        }
+      });
+
+      if (!document.documentElement.classList.contains("is-open")) {
+        gateInput.focus();
+      }
+    })();
+
     (function () {
       const form = document.getElementById("signup-form");
       const formTitle = document.getElementById("form-title");
