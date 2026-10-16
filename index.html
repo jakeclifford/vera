@@ -310,9 +310,8 @@
     .meta-copy {
       position: absolute;
       z-index: 12;
-      left: 50%;
+      right: var(--pad);
       bottom: var(--pad);
-      transform: translateX(-50%);
       font-size: var(--type);
       letter-spacing: var(--tracking);
       color: var(--black);
@@ -382,7 +381,7 @@
         width: 100%;
         min-height: 0;
         height: auto;
-        aspect-ratio: 893 / 710;
+        aspect-ratio: 814 / 1024;
         overflow: hidden;
         background: #1a1a1a;
       }
@@ -425,24 +424,15 @@
         transform: none !important;
       }
 
-      .meta-copy {
-        left: auto;
-        right: var(--pad);
-        bottom: var(--pad);
-        transform: none;
-      }
-
       .panel-visual .hero {
-        inset: auto;
-        top: 50%;
-        left: 50%;
-        width: auto;
-        height: 100vw;
-        max-width: none;
-        max-height: none;
-        object-fit: unset;
-        transform: translate(-50%, -50%) rotate(-90deg);
-        transform-origin: center center;
+        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        transform: none;
       }
     }
   </style>
@@ -513,7 +503,7 @@
     </section>
 
     <aside class="panel-visual" aria-label="Featured image">
-      <img class="hero" src="assets/hero.png" alt="">
+      <img class="hero" src="assets/hero.jpg" alt="">
       <div class="brand-foot brand-foot--visual">
         <img src="assets/vera-logo.png" alt="Vera">
       </div>
