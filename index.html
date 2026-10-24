@@ -264,7 +264,8 @@
       .page {
         display: flex;
         flex-direction: column;
-        min-height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
       }
 
       .panel-form {
@@ -308,11 +309,10 @@
 
       .panel-visual {
         position: relative;
-        flex: 0 0 auto;
+        flex: 1 0 auto;
         width: 100%;
-        min-height: 0;
+        min-height: calc(100vw * 1024 / 826);
         height: auto;
-        aspect-ratio: 826 / 1024;
         overflow: hidden;
         background: #1a1a1a;
       }
